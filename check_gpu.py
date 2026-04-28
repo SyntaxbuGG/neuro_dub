@@ -8,6 +8,3 @@ else:
 
 
 print(torch.backends.cudnn.is_available())
-
-
-

@@ -30,8 +30,8 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 #     return response
 
 
-def translate_gpt_api_structured_output(text: list[Segment], target_lang: str = "en"):
-    payload = {"translated": text}
+def translate_gpt_api_structured_output(text: list[Segment],  model: str, target_lang: str = "en",):
+
     response = client.responses.parse(
         model="gpt-4.1-nano",
         instructions=f"""
@@ -51,7 +51,7 @@ Rules:
         store=False,
         input=[
             {"role": "user",
-             "content": json.dumps(text,ensure_ascii=False,separators=(",",":"))}
+             "content": json.dumps(text, ensure_ascii=False, separators=(",", ":"))}
         ]
     )
 

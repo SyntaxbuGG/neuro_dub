@@ -2,8 +2,12 @@ import subprocess
 from pathlib import Path
 import logging
 
+
+
 logger = logging.getLogger(__name__)
 
+
+# demucs
 class AudioSeparator:
 
     def separate(self, audio_file: list[Path], demucs_model="htdemucs") -> list[dict]:
@@ -31,14 +35,13 @@ class AudioSeparator:
                 "-n", demucs_model,
                 "-d", "cuda",
                 "-o", str(output_dir),
-                "--segment", "5",
                 "--two-stems", "vocals",
                 *map(str, to_process)
             ]
-            # Добавляем переменную окружения прямо в запуск, чтобы PyTorch не кэшировал лишнего
-            import os
-            env = os.environ.copy()
-            env["PYTORCH_NO_CUDA_MEMORY_CACHING"] = "1"
+            # # Добавляем переменную окружения прямо в запуск, чтобы PyTorch не кэшировал лишнего
+            # import os
+            # env = os.environ.copy()
+            # env["PYTORCH_NO_CUDA_MEMORY_CACHING"] = "1"
             try:
                 subprocess.run(command, check=True)
 
@@ -56,3 +59,5 @@ class AudioSeparator:
                 "file_name": str(file.stem)
             })
         return results
+
+
